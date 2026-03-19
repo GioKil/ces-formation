@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Module A — Concordat CES</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Fraunces:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+html { color-scheme: light only; }
+* { box-sizing: border-box; margin: 0; padding: 0; color-scheme: light; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: #f8fafc !important;
+  color: #1e293b !important;
+  line-height: 1.7; font-size: 15px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0d1f35 0%, #162d4a 60%, #1a3a5c 100%);
+  padding: 2.5rem 2rem 2rem;
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #c8972a, transparent);
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(200,151,42,0.15);
+  border: 1px solid rgba(200,151,42,0.35);
+  color: #f5c842; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 0.8rem;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.8rem; color: #ffffff;
+  font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem;
+}
+.hero-sub { color: rgba(255,255,255,0.65); font-size: 0.85rem; }
+
+/* PROGRESS BAR */
+.progress-wrap {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 1.5rem;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.progress-steps {
+  display: flex; gap: 0.4rem; align-items: center;
+  margin-bottom: 0.6rem; overflow-x: auto;
+  scrollbar-width: none;
+}
+.progress-steps::-webkit-scrollbar { display: none; }
+.step-pill {
+  display: flex; align-items: center; gap: 0.35rem;
+  padding: 0.3rem 0.75rem; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700;
+  white-space: nowrap; cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc; color: #94a3b8;
+}
+.step-pill.active {
+  background: #0d1f35; color: #f5c842;
+  border-color: #0d1f35;
+}
+.step-pill.done {
+  background: #f0fdf4; color: #166534;
+  border-color: #86efac;
+}
+.step-pill .pill-num {
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800;
+  background: rgba(0,0,0,0.08); flex-shrink: 0;
+}
+.step-pill.active .pill-num { background: rgba(245,200,66,0.2); }
+.step-pill.done .pill-num { background: #dcfce7; }
+
+.progress-bar-track {
+  height: 4px; background: #e2e8f0;
+  border-radius: 4px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, #c8972a, #f5c842);
+  transition: width 0.4s ease;
+}
+
+/* CONTENT AREA */
+.content {
+  max-width: 780px; margin: 0 auto;
+  padding: 2rem 1.5rem 2rem;
+}
+
+/* STEP PANEL */
+.step-panel { display: none; }
+.step-panel.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* SECTION HEADER */
+.section-head {
+  display: flex; align-items: flex-start; gap: 1rem;
+  margin-bottom: 1.8rem; background: #ffffff;
+  padding: 1.2rem; border-radius: 14px; border: 1px solid #e2e8f0;
+}
+.section-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; flex-shrink: 0;
+}
+.section-icon.blue { background: #e8f0fb; }
+.section-icon.gold { background: #fdf3dc; }
+.section-icon.red { background: #fef2f2; }
+.section-icon.green { background: #f0fdf4; }
+.section-icon.orange { background: #fff7ed; }
+.section-ref {
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #1a56a0 !important; margin-bottom: 0.2rem;
+}
+.section-head h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem; font-weight: 700;
+  color: #0d1f35 !important; line-height: 1.2;
+}
+.legal-ref { font-size: 0.75rem; color: #64748b !important; margin-top: 0.2rem; }
+
+/* BODY TEXT */
+.body-text {
+  font-size: 0.93rem; line-height: 1.75;
+  color: #1e293b !important; margin-bottom: 1.4rem;
+}
+.body-text strong { color: #0d1f35 !important; font-weight: 600; }
+
+/* LAW BOX */
+.law-box {
+  background: #0d1f35; border-radius: 14px;
+  padding: 1.4rem 1.6rem; margin: 1.2rem 0;
+  position: relative; overflow: hidden;
+}
+.law-box::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; bottom: 0; width: 4px;
+  background: #c8972a;
+}
+.law-label {
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #f5c842; margin-bottom: 0.6rem;
+}
+.law-box p { color: #e2e8f0 !important; font-size: 0.9rem; line-height: 1.7; }
+.law-box strong { color: #ffffff !important; }
+
+/* DEF BOX */
+.def-box {
+  background: #e8f0fb; border-left: 4px solid #1a56a0;
+  border-radius: 0 12px 12px 0;
+  padding: 1.1rem 1.4rem; margin: 1.2rem 0;
+}
+.def-label {
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #1a56a0; margin-bottom: 0.4rem;
+}
+.def-box p { color: #1e293b !important; font-size: 0.9rem; line-height: 1.65; }
+.def-box strong { color: #0d1f35 !important; }
+
+/* WARN BOX */
+.warn-box {
+  background: #fef2f2; border: 1.5px solid #fca5a5;
+  border-radius: 12px; padding: 1.1rem 1.4rem; margin: 1.2rem 0;
+  display: flex; gap: 0.9rem; align-items: flex-start;
+}
+.warn-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.warn-title {
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #b91c1c; margin-bottom: 0.3rem;
+}
+.warn-box p { font-size: 0.88rem; color: #7f1d1d !important; line-height: 1.55; }
+.warn-box strong { color: #6b1111 !important; }
+
+/* TIP BOX */
+.tip-box {
+  background: #f0fdf4; border: 1.5px solid #86efac;
+  border-radius: 12px; padding: 1.1rem 1.4rem; margin: 1.2rem 0;
+  display: flex; gap: 0.9rem; align-items: flex-start;
+}
+.tip-title {
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #166534; margin-bottom: 0.3rem;
+}
+.tip-box p { font-size: 0.88rem; color: #14532d !important; line-height: 1.55; }
+.tip-box strong { color: #0f3d21 !important; }
+
+/* INFO BOX */
+.info-box {
+  background: #fdf3dc; border: 1.5px solid #fcd34d;
+  border-radius: 12px; padding: 1.1rem 1.4rem; margin: 1.2rem 0;
+  display: flex; gap: 0.9rem; align-items: flex-start;
+}
+.info-title {
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: #92650a; margin-bottom: 0.3rem;
+}
+.info-box p { font-size: 0.88rem; color: #78350f !important; line-height: 1.55; }
+.info-box strong { color: #5c2a0b !important; }
+
+/* SCENARIO */
+.scenario-card {
+  background: #0d1f35; border-radius: 16px;
+  padding: 1.5rem 1.8rem; margin: 1.4rem 0;
+  position: relative; overflow: hidden;
+  border: 1px solid rgba(200,151,42,0.25);
+}
+.scenario-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #c8972a, transparent);
+}
+.scenario-tag {
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #f5c842; margin-bottom: 0.8rem;
+}
+.scenario-body {
+  color: #e2e8f0 !important;
+  font-size: 0.9rem; line-height: 1.75; font-style: italic;
+}
+.scenario-body strong { color: #ffffff !important; font-style: normal; }
+.scenario-answer {
+  margin-top: 1rem; padding-top: 1rem;
+  border-top: 1px solid rgba(200,151,42,0.3);
+  color: #fef9c3 !important;
+  font-size: 0.88rem; font-weight: 600; line-height: 1.6;
+}
+.scenario-answer strong { color: #ffffff !important; }
+
+/* CHECKLIST */
+.checklist { margin: 1.2rem 0; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.75rem 1rem; border-radius: 10px;
+  margin-bottom: 0.5rem; font-size: 0.88rem; line-height: 1.5;
+  background: #ffffff; border: 1px solid #e2e8f0; color: #1e293b !important;
+}
+.check-item strong { color: #0d1f35 !important; }
+.check-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; flex-shrink: 0; margin-top: 1px; font-weight: 700;
+}
+.check-dot.blue { background: #e8f0fb; color: #1a56a0; }
+.check-dot.green { background: #f0fdf4; color: #166534; }
+.check-dot.red { background: #fef2f2; color: #b91c1c; }
+
+/* TABLE */
+.summary-table {
+  width: 100%; border-collapse: collapse;
+  margin: 1.2rem 0; border-radius: 12px;
+  overflow: hidden; box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  font-size: 0.85rem;
+}
+.summary-table th {
+  background: #0d1f35; color: #ffffff !important;
+  padding: 0.8rem 1rem; font-size: 0.75rem;
+  font-weight: 700; text-transform: uppercase; text-align: left;
+}
+.summary-table td {
+  padding: 0.8rem 1rem; border-bottom: 1px solid #e2e8f0;
+  background: #ffffff; color: #1e293b !important; vertical-align: top;
+}
+.summary-table tr:nth-child(even) td { background: #f8fafc; }
+.summary-table tr:last-child td { border-bottom: none; }
+.td-yes { color: #166534 !important; font-weight: 700; }
+.td-no { color: #64748b !important; }
+
+/* STEPS */
+.steps { margin: 1.2rem 0; }
+.step-item { display: flex; gap: 1rem; margin-bottom: 1.2rem; }
+.step-num {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #1a56a0; color: white;
+  font-size: 0.9rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.step-content strong { display: block; font-size: 0.92rem; color: #0d1f35 !important; margin-bottom: 0.25rem; }
+.step-content p { font-size: 0.86rem; color: #374151 !important; line-height: 1.6; }
+
+/* RECAP PANEL */
+.keypoints {
+  background: #0d1f35; border-radius: 16px;
+  padding: 1.6rem 1.8rem; margin: 0 0 1.5rem;
+}
+.keypoints-title {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #f5c842; margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.keypoints-title::after { content: ''; flex: 1; height: 1px; background: rgba(200,151,42,0.3); }
+.keypoint-item {
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  margin-bottom: 0.8rem; color: #e2e8f0 !important;
+  font-size: 0.88rem; line-height: 1.6;
+}
+.keypoint-item:last-child { margin-bottom: 0; }
+.keypoint-item strong { color: #ffffff !important; }
+.kp-bullet { width: 7px; height: 7px; border-radius: 50%; background: #f5c842; flex-shrink: 0; margin-top: 8px; }
+
+/* QUIZ PREVIEW */
+.quiz-preview {
+  background: #0d2137; border-radius: 16px; padding: 1.8rem;
+  border: 1px solid rgba(200,151,42,0.25); margin-bottom: 1.5rem;
+}
+.quiz-preview-title { font-family: 'Fraunces', serif; font-size: 1.1rem; color: #ffffff; margin-bottom: 0.4rem; }
+.quiz-preview-sub { font-size: 0.82rem; color: rgba(255,255,255,0.6); margin-bottom: 1.4rem; }
+.quiz-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
+.quiz-stat {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; padding: 0.6rem 1.1rem; text-align: center;
+}
+.quiz-stat .qs-num { font-size: 1.4rem; font-weight: 700; color: #f5c842; }
+.quiz-stat .qs-label { font-size: 0.7rem; color: rgba(255,255,255,0.55); margin-top: 0.1rem; }
+
+/* NAVIGATION BUTTONS */
+.nav-buttons {
+  display: flex; gap: 1rem; margin-top: 2rem;
+  padding-top: 1.5rem; border-top: 1px solid #e2e8f0;
+}
+.btn-prev {
+  padding: 0.85rem 1.5rem;
+  border: 2px solid #e2e8f0; border-radius: 12px;
+  background: #ffffff; color: #64748b !important;
+  font-family: 'Sora', sans-serif; font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.btn-prev:hover { border-color: #0d1f35; color: #0d1f35 !important; }
+.btn-prev:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn-next {
+  flex: 1; padding: 0.85rem 1.5rem;
+  border: none; border-radius: 12px;
+  background: linear-gradient(135deg, #0d1f35, #1a3a5c);
+  color: #f5c842 !important;
+  font-family: 'Sora', sans-serif; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  box-shadow: 0 4px 16px rgba(13,31,53,0.25);
+}
+.btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,31,53,0.35); }
+.btn-next.last {
+  background: linear-gradient(135deg, #166534, #15803d);
+  color: #ffffff !important;
+}
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.4rem; }
+  .content { padding: 1.5rem 1rem 2rem; }
+  .section-head h2 { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🛡️ Formation initiale / Quadriennale</div>
+  <h1>Module A — Concordat CES</h1>
+  <div class="hero-sub">Vos droits, vos obligations, votre cadre légal sur le terrain</div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <div class="progress-steps">
+    <div class="step-pill active" onclick="goTo(0)" id="pill-0">
+      <div class="pill-num">A1</div> Respect de la loi
+    </div>
+    <div class="step-pill" onclick="goTo(1)" id="pill-1">
+      <div class="pill-num">A2</div> Collaboration autorité
+    </div>
+    <div class="step-pill" onclick="goTo(2)" id="pill-2">
+      <div class="pill-num">A3</div> Obligation dénoncer
+    </div>
+    <div class="step-pill" onclick="goTo(3)" id="pill-3">
+      <div class="pill-num">A4</div> Légitimation
+    </div>
+    <div class="step-pill" onclick="goTo(4)" id="pill-4">
+      <div class="pill-num">A5</div> Armes
+    </div>
+    <div class="step-pill" onclick="goTo(5)" id="pill-5">
+      <div class="pill-num">★</div> Récap
+    </div>
+  </div>
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════ ÉTAPE 0 — A1 ══════════ -->
+<div class="step-panel active" id="panel-0">
+  <div class="section-head">
+    <div class="section-icon blue">⚖️</div>
+    <div class="section-head-text">
+      <div class="section-ref">Sous-module A1 · 1/5</div>
+      <h2>Respect de la législation</h2>
+      <div class="legal-ref">Art. 10a et 15 CES · Directive du 23 septembre 2004</div>
+    </div>
+  </div>
+
+  <p class="body-text">En tant qu'agent de sécurité, votre activité est encadrée par plusieurs niveaux de règles que vous devez connaître et respecter <strong>en tout temps</strong> — que vous soyez en ronde nocturne, dans un foyer, ou en service d'ordre.</p>
+
+  <div class="law-box">
+    <div class="law-label">📜 Ce que couvre « la législation » (art. 15 CES)</div>
+    <p>Quand le concordat parle de <strong>respecter la législation</strong>, il s'agit de quatre niveaux cumulatifs que vous devez tous respecter simultanément.</p>
+  </div>
+
+  <div class="checklist">
+    <div class="check-item"><div class="check-dot blue">1</div><div><strong>Le Concordat CES et ses directives</strong> — les règles que vous apprenez dans cette formation, valables dans tous les cantons concordataires.</div></div>
+    <div class="check-item"><div class="check-dot blue">2</div><div><strong>La législation cantonale</strong> — chaque canton peut imposer des règles plus strictes sur son territoire.</div></div>
+    <div class="check-item"><div class="check-dot blue">3</div><div><strong>Le droit fédéral</strong> — notamment le Code pénal, le CPP, les lois sur les assurances sociales et les étrangers.</div></div>
+    <div class="check-item"><div class="check-dot blue">4</div><div><strong>La CCT de la branche sécurité</strong> — la Convention collective de travail qui régit vos conditions d'emploi.</div></div>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">🚦 Le recours à la force — principe de proportionnalité</div>
+    <p>Vous n'avez pas les mêmes prérogatives qu'un agent de police. Tout recours à la force physique doit être <strong>justifié par les circonstances et strictement proportionnel à la menace</strong>. Les deux cadres légaux sont la légitime défense (Module B1) et l'état de nécessité (Module B2) — mais dans les deux cas, <strong>la proportionnalité est toujours exigée</strong>.</p>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-icon">🚫</div>
+    <div class="warn-content">
+      <div class="warn-title">Votre droit et obligation de refus</div>
+      <p>Si un supérieur ou un client vous demande d'enfreindre la loi, vous avez non seulement le <strong>droit de refuser</strong>, mais l'<strong>obligation légale de refuser</strong>. "J'obéissais aux ordres" n'est pas une défense valable devant la justice.</p>
+    </div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-tag">🏠 Scénario — Foyer de requérants d'asile</div>
+    <div class="scenario-body">Il est 22h dans un foyer. Vous observez deux résidents en train de se disputer violemment dans le couloir. L'un d'eux saisit l'autre par le col et le plaque contre le mur. Le responsable du foyer vous crie d'intervenir physiquement.</div>
+    <div class="scenario-answer">✅ Une intervention physique peut être justifiée — à condition qu'elle soit <strong>proportionnelle</strong>. Vous pouvez vous interposer pour séparer les protagonistes. Mais vous ne pouvez pas frapper ou immobiliser violemment une personne qui cesse d'attaquer. La force s'arrête dès que le danger s'arrête.</div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-prev" disabled onclick="prevStep()">← Précédent</button>
+    <button class="btn-next" onclick="nextStep()">Suivant — Collaboration autorité →</button>
+  </div>
+</div>
+
+<!-- ══════════ ÉTAPE 1 — A2 ══════════ -->
+<div class="step-panel" id="panel-1">
+  <div class="section-head">
+    <div class="section-icon gold">🤝</div>
+    <div class="section-head-text">
+      <div class="section-ref">Sous-module A2 · 2/5</div>
+      <h2>Collaboration avec l'autorité</h2>
+      <div class="legal-ref">Art. 10b et 16 CES</div>
+    </div>
+  </div>
+
+  <p class="body-text">Sur le terrain, vous serez régulièrement en contact avec la police — lors d'interventions, de services d'ordre, ou d'incidents dans un foyer. Votre comportement vis-à-vis des autorités est précisément encadré par le concordat.</p>
+
+  <div class="def-box">
+    <div class="def-label">📜 Vos deux obligations (art. 16 CES)</div>
+    <p><strong>Interdiction absolue</strong> d'entraver l'action des autorités et organes de police. <strong>Obligation active</strong> de prêter assistance à la police, spontanément ou sur requête.</p>
+  </div>
+
+  <div class="checklist">
+    <div class="check-item"><div class="check-dot green">✓</div><div><strong>Laisser la police agir librement</strong> — même si vous pensez que leur intervention est exagérée. Vous n'avez pas à valider leurs décisions opérationnelles.</div></div>
+    <div class="check-item"><div class="check-dot green">✓</div><div><strong>Transmettre spontanément toute information utile</strong> — direction de fuite, description physique, véhicule. Ne pas attendre qu'on vous le demande.</div></div>
+    <div class="check-item"><div class="check-dot green">✓</div><div><strong>Répondre à toute réquisition</strong> — présenter votre carte, fournir un état des lieux, décrire les faits, coopérer à un contrôle.</div></div>
+    <div class="check-item"><div class="check-dot green">✓</div><div><strong>Coopérer aux procédures administratives</strong> (art. 10b CES) — si l'autorité enquête sur un incident sur votre poste, vous devez collaborer pleinement.</div></div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-tag">🏛️ Scénario — Service d'ordre en manifestation</div>
+    <div class="scenario-body">La police cantonale décide d'intervenir en force dans votre zone sans vous prévenir. L'organisateur vous demande de rester en position pour ralentir l'avancée des policiers.</div>
+    <div class="scenario-answer">🚫 Refus catégorique. Bloquer une intervention de police constitue une entrave à l'action des autorités. Les instructions de l'organisateur ne peuvent pas prendre le dessus sur la loi.</div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-tag">🏠 Scénario — Foyer de requérants d'asile</div>
+    <div class="scenario-body">La police se présente avec un mandat d'arrestation. Le gestionnaire du foyer vous demande de dire à la police que la personne n'est pas présente — alors qu'elle est bien là.</div>
+    <div class="scenario-answer">🚫 Refus catégorique. Mentir à la police pour entraver une arrestation légale constitue une infraction pénale. Les instructions de votre client ne peuvent jamais vous faire commettre une infraction.</div>
+  </div>
+
+  <div class="tip-box">
+    <div style="font-size:1.3rem;flex-shrink:0;">💡</div>
+    <div class="tip-content">
+      <div class="tip-title">Délégation de tâches d'intérêt public</div>
+      <p>Dans certaines missions, la police peut vous confier des tâches spécifiques (art. 16 al. 3 CES). Vous les accomplissez correctement, dans le respect de vos propres limites légales.</p>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-prev" onclick="prevStep()">← Précédent</button>
+    <button class="btn-next" onclick="nextStep()">Suivant — Obligation de dénoncer →</button>
+  </div>
+</div>
+
+<!-- ══════════ ÉTAPE 2 — A3 ══════════ -->
+<div class="step-panel" id="panel-2">
+  <div class="section-head">
+    <div class="section-icon red">🚨</div>
+    <div class="section-head-text">
+      <div class="section-ref">Sous-module A3 · 3/5</div>
+      <h2>Obligation de dénoncer</h2>
+      <div class="legal-ref">Art. 17 CES</div>
+    </div>
+  </div>
+
+  <p class="body-text">Sur vos postes, vous êtes souvent parmi les premiers témoins d'infractions pénales. Le concordat vous impose une obligation claire à ce sujet.</p>
+
+  <div class="def-box">
+    <div class="def-label">📜 Art. 17 CES — votre obligation légale</div>
+    <p>Vous avez l'obligation de <strong>dénoncer sans délai</strong> à l'autorité pénale compétente tout fait pouvant constituer un <strong>crime ou un délit poursuivi d'office</strong> dont vous prenez connaissance dans l'exercice de votre activité.</p>
+  </div>
+
+  <table class="summary-table">
+    <thead><tr><th>Catégorie</th><th>Définition</th><th>Exemples terrain</th><th>Obligation</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Crime</strong></td><td>Peine &gt; 3 ans</td><td>Agression grave, viol, trafic qualifié</td><td class="td-yes">🚨 Dénoncer</td></tr>
+      <tr><td><strong>Délit d'office</strong></td><td>Peine jusqu'à 3 ans</td><td>Vol, voies de fait, deal de rue</td><td class="td-yes">🚨 Dénoncer</td></tr>
+      <tr><td><strong>Délit sur plainte</strong></td><td>Nécessite plainte victime</td><td>Injures entre particuliers</td><td class="td-no">Orienter la victime</td></tr>
+      <tr><td><strong>Contravention</strong></td><td>Amende uniquement</td><td>Tapage, alcool interdit</td><td class="td-no">Selon instructions</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box">
+    <div class="warn-icon">⏱️</div>
+    <div class="warn-content">
+      <div class="warn-title">« Sans délai » — ce que ça signifie</div>
+      <p>Vous ne pouvez pas attendre la fin de votre service ni demander l'accord de votre supérieur. En cas de doute : <strong>appelez le 117</strong>. C'est la police qui qualifie l'infraction, pas vous.</p>
+    </div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-tag">🏠 Scénario — Foyer de requérants d'asile</div>
+    <div class="scenario-body">Pendant votre service de nuit, vous entendez des cris et des bruits de coups derrière une porte fermée à clé. Un résident vous dit que ce n'est pas grave.</div>
+    <div class="scenario-answer">✅ Appelez le 117 immédiatement. Ce que vous entendez évoque des voies de fait — délit d'office. L'avis d'un autre résident ne vous dispense pas d'agir. Rédigez un rapport détaillé après les faits.</div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-tag">🏛️ Scénario — Service d'ordre</div>
+    <div class="scenario-body">Vous observez dans une ruelle un individu remettre quelque chose à une autre personne en échange d'argent. L'échange est rapide et discret, l'individu part à votre approche.</div>
+    <div class="scenario-answer">✅ Appelez le 117 immédiatement. Décrivez précisément : descriptions physiques, heure, lieu, direction de fuite. Le doute ne vous dispense pas de signaler.</div>
+  </div>
+
+  <div class="tip-box">
+    <div style="font-size:1.3rem;flex-shrink:0;">📝</div>
+    <div class="tip-content">
+      <div class="tip-title">Le rapport écrit — votre protection légale</div>
+      <p>Après chaque incident signalé, rédigez <strong>immédiatement</strong> un rapport écrit : date, heure, lieu, descriptions, faits, mesures prises. Ce document peut être requis par la justice des mois plus tard.</p>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-prev" onclick="prevStep()">← Précédent</button>
+    <button class="btn-next" onclick="nextStep()">Suivant — Légitimation →</button>
+  </div>
+</div>
+
+<!-- ══════════ ÉTAPE 3 — A4 ══════════ -->
+<div class="step-panel" id="panel-3">
+  <div class="section-head">
+    <div class="section-icon blue">🪪</div>
+    <div class="section-head-text">
+      <div class="section-ref">Sous-module A4 · 4/5</div>
+      <h2>Légitimation et publicité</h2>
+      <div class="legal-ref">Art. 18 CES</div>
+    </div>
+  </div>
+
+  <p class="body-text">Votre carte de légitimation n'est pas un simple badge d'entreprise. C'est une <strong>autorisation officielle délivrée par le canton</strong>. Sans elle, vous ne pouvez pas travailler hors des locaux de votre employeur.</p>
+
+  <div class="def-box">
+    <div class="def-label">🪪 Obligation de port</div>
+    <p>Vous devez avoir votre carte sur vous <strong>en tout temps hors des locaux de votre entreprise</strong> — rondes, foyers, services d'ordre, postes fixes extérieurs.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Présentation sur réquisition — immédiate et sans discussion</strong>
+        <p>Dès qu'un agent de police ou toute personne en contact avec vous la demande, vous la présentez. Cela vaut aussi pour les résidents d'un foyer ou les personnes contrôlées.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>Perte, vol, détérioration ou destruction</strong>
+        <p>Signalez d'abord à la police du lieu, puis déclarez sans délai à l'autorité cantonale concordataire. Informez immédiatement votre responsable.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Fin définitive d'activité</strong>
+        <p>Votre carte doit être restituée à l'autorité cantonale. Vous ne pouvez pas la conserver.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-content">
+      <div class="warn-title">Ne pas créer de confusion avec la police</div>
+      <p>Votre uniforme et matériel ne doivent <strong>jamais</strong> faire penser que vous exercez une fonction officielle de l'État. Cela vaut aussi pour votre façon de vous présenter verbalement.</p>
+    </div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-tag">🌙 Scénario — Ronde nocturne</div>
+    <div class="scenario-body">Un agent de police vous interpelle à 23h et demande votre carte de légitimation. Vous réalisez que vous l'avez oubliée dans votre véhicule garé à 200m.</div>
+    <div class="scenario-answer">✅ Expliquez calmement la situation et proposez de récupérer immédiatement votre carte dans le véhicule. Un badge d'entreprise seul ne suffit pas. Une carte absente en service peut entraîner un rapport d'infraction.</div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-prev" onclick="prevStep()">← Précédent</button>
+    <button class="btn-next" onclick="nextStep()">Suivant — Armes →</button>
+  </div>
+</div>
+
+<!-- ══════════ ÉTAPE 4 — A5 ══════════ -->
+<div class="step-panel" id="panel-4">
+  <div class="section-head">
+    <div class="section-icon orange">🔫</div>
+    <div class="section-head-text">
+      <div class="section-ref">Sous-module A5 · 5/5</div>
+      <h2>Armes — règle générale</h2>
+      <div class="legal-ref">Art. 21 CES</div>
+    </div>
+  </div>
+
+  <p class="body-text">Ce sous-module concerne <strong>tous les agents</strong>, avec ou sans PPA. Les agents titulaires d'un Permis de Port d'Arme suivront le Module C pour les règles approfondies.</p>
+
+  <div class="info-box">
+    <div style="font-size:1.3rem;flex-shrink:0;">ℹ️</div>
+    <div class="info-content">
+      <div class="info-title">Base légale</div>
+      <p>Le port d'arme est régi par la <strong>Loi fédérale sur les armes (LArm)</strong> et par un permis cantonal spécifique (PPA). Le concordat vient en complément.</p>
+    </div>
+  </div>
+
+  <div class="def-box">
+    <div class="def-label">📜 La règle de base (art. 21 al. 2 CES)</div>
+    <p>Sur la voie publique et dans tout lieu ouvert au public, les armes doivent être portées de manière <strong>non apparente</strong>. Seule exception : les armes longues lors de transports de sécurité, qui restent dans le véhicule.</p>
+  </div>
+
+  <div class="checklist">
+    <div class="check-item"><div class="check-dot green">✓</div><div><strong>Port non apparent obligatoire en public</strong> — arme dissimulée sous l'uniforme ou dans un holster non visible. En ronde, en service d'ordre, en tout temps en public.</div></div>
+    <div class="check-item"><div class="check-dot green">✓</div><div><strong>PPA valide obligatoire</strong> — sans ce permis cantonal, aucun port d'arme n'est autorisé quelle que soit la mission.</div></div>
+    <div class="check-item"><div class="check-dot red">✗</div><div><strong>Porter une arme sans PPA valide</strong> — même si votre employeur vous le demande.</div></div>
+  </div>
+
+  <div class="tip-box">
+    <div style="font-size:1.3rem;flex-shrink:0;">💡</div>
+    <div class="tip-content">
+      <div class="tip-title">Règle d'or</div>
+      <p>L'arme n'est <strong>jamais</strong> un outil de gestion de situation ordinaire. Son usage obéit à des règles strictes étudiées dans les Modules B et C.</p>
+    </div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-tag">🌙 Scénario — Ronde nocturne sur site privé</div>
+    <div class="scenario-body">Vous interpellez un individu non autorisé sur un site privé. Pour l'inciter à coopérer, vous écartez votre veste et rendez votre holster visible.</div>
+    <div class="scenario-answer">⚠️ Rendre l'arme visible ne doit jamais être utilisé comme simple outil de pression. Privilégiez la communication verbale claire. Si nécessaire, appelez la police plutôt que d'escalader vers un recours à l'arme non justifié.</div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-prev" onclick="prevStep()">← Précédent</button>
+    <button class="btn-next" onclick="nextStep()">Voir le récapitulatif →</button>
+  </div>
+</div>
+
+<!-- ══════════ ÉTAPE 5 — RÉCAP ══════════ -->
+<div class="step-panel" id="panel-5">
+  <div class="keypoints">
+    <div class="keypoints-title">⭐ Points clés à retenir — Module A</div>
+    <div class="keypoint-item"><div class="kp-bullet"></div><div><strong>A1 — Respect de la loi :</strong> Concordat, CCT, droit cantonal et fédéral s'appliquent en tout temps. Force proportionnelle et justifiée. Refuser tout ordre illégal est votre obligation.</div></div>
+    <div class="keypoint-item"><div class="kp-bullet"></div><div><strong>A2 — Collaboration autorité :</strong> Ne jamais entraver la police, coopérer activement et spontanément. Les ordres de votre client ne priment jamais sur la loi.</div></div>
+    <div class="keypoint-item"><div class="kp-bullet"></div><div><strong>A3 — Dénoncer :</strong> Crimes et délits d'office → 117 sans délai, même la nuit, même si vous n'êtes pas certain. Toujours rédiger un rapport écrit immédiatement après.</div></div>
+    <div class="keypoint-item"><div class="kp-bullet"></div><div><strong>A4 — Légitimation :</strong> Carte sur soi en tout temps hors locaux. Présenter immédiatement sur demande. Perte/vol → police + autorité cantonale sans délai.</div></div>
+    <div class="keypoint-item"><div class="kp-bullet"></div><div><strong>A5 — Armes :</strong> Port non apparent obligatoire en public. PPA valide indispensable. L'arme n'est jamais un outil de gestion ordinaire.</div></div>
+  </div>
+
+  <div class="quiz-preview">
+    <div class="quiz-preview-title">✅ Prêt pour le QCM du Module A ?</div>
+    <div class="quiz-preview-sub">Validez vos connaissances avant de passer au Module B. Score minimum : 70% pour continuer.</div>
+    <div class="quiz-stats">
+      <div class="quiz-stat"><div class="qs-num">10</div><div class="qs-label">Questions</div></div>
+      <div class="quiz-stat"><div class="qs-num">70%</div><div class="qs-label">Seuil réussite</div></div>
+      <div class="quiz-stat"><div class="qs-num">∞</div><div class="qs-label">Tentatives tracées</div></div>
+      <div class="quiz-stat"><div class="qs-num">~10'</div><div class="qs-label">Durée estimée</div></div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-prev" onclick="prevStep()">← Revoir A5</button>
+    <button class="btn-next last" onclick="alert('Rendez-vous dans le QCM ci-dessous pour valider ce module !')">🎯 Aller au QCM</button>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+let current = 0;
+const total = 6;
+
+function goTo(index) {
+  document.getElementById('panel-' + current).classList.remove('active');
+  document.getElementById('pill-' + current).classList.remove('active');
+  if (current < index) document.getElementById('pill-' + current).classList.add('done');
+
+  current = index;
+  document.getElementById('panel-' + current).classList.add('active');
+  document.getElementById('pill-' + current).classList.remove('done');
+  document.getElementById('pill-' + current).classList.add('active');
+
+  const pct = Math.round((current / (total - 1)) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() {
+  if (current < total - 1) goTo(current + 1);
+}
+
+function prevStep() {
+  if (current > 0) {
+    document.getElementById('pill-' + current).classList.remove('done');
+    goTo(current - 1);
+  }
+}
+
+// Init
+document.getElementById('progressFill').style.width = '0%';
+document.querySelectorAll('.btn-prev')[0].disabled = true;
+</script>
+</body>
+</html>
