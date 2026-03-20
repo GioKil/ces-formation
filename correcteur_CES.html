@@ -84,7 +84,13 @@ textarea:focus { outline: none; border-color: #1a56a0; }
   <div class="hero-sub">Légitime défense · État de nécessité · Correction par intelligence artificielle · Tentatives illimitées</div>
 </div>
 <div class="content">
-  <div class="info-note"><strong>Comment ça fonctionne :</strong> Lisez le scénario, rédigez votre analyse dans vos propres mots. L'IA évalue votre raisonnement — pas votre vocabulaire juridique. Seuil de réussite : 70%. Tentatives illimitées, toutes tracées.</div>
+  <div class="info-note">
+  <strong>📋 Comment utiliser cet outil :</strong><br>
+  1. Retournez dans le <strong>Devoir B1</strong> → ouvrez votre soumission → sélectionnez votre réponse → <strong>Ctrl+C</strong> pour copier<br>
+  2. Revenez ici → cliquez sur l'onglet <strong>B1</strong> → collez votre réponse dans le champ texte (<strong>Ctrl+V</strong>) → soumettez<br>
+  3. Répétez pour le <strong>Devoir B2</strong><br><br>
+  L'IA évalue votre <strong>raisonnement</strong> — pas votre vocabulaire juridique. Seuil de réussite : 70%. Tentatives illimitées.
+</div>
   <div class="module-tabs">
     <button class="tab-btn active" onclick="selectModule('B1')" id="tab-B1">B1 — Légitime défense<br><small style="font-weight:400;font-size:0.75rem;">Art. 15 CP</small></button>
     <button class="tab-btn" onclick="selectModule('B2')" id="tab-B2">B2 — État de nécessité<br><small style="font-weight:400;font-size:0.75rem;">Art. 17 CP</small></button>
@@ -101,8 +107,8 @@ textarea:focus { outline: none; border-color: #1a56a0; }
     <p id="legal-ref-text">Chargement...</p>
   </div>
   <div class="response-label">Votre analyse :</div>
-  <div class="response-hint">Décrivez ce que vous feriez et pourquoi. Pas besoin d'utiliser les termes juridiques exacts — exprimez-vous naturellement.</div>
-  <textarea id="responseText" placeholder="Rédigez votre réponse ici..."></textarea>
+  <div class="response-hint">Copiez votre réponse depuis le Devoir B1 ou B2 et collez-la ici. L'IA évalue votre raisonnement — pas les termes juridiques exacts.</div>
+  <textarea id="responseText" placeholder="Collez ici votre réponse depuis le Devoir B1 (Ctrl+V)..."></textarea>
   <button class="submit-btn" id="submitBtn" onclick="submitResponse()">🎯 Soumettre pour correction</button>
   <div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">L'IA analyse votre réponse...</div></div>
   <div class="result-wrap" id="resultWrap">
